@@ -13,12 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pauloeduardocosta.cursomc.domain.enums.tipoCliente;
+import com.pauloeduardocosta.cursomc.domain.enums.TipoCliente;
 
 @Entity
 public class Cliente implements Serializable{
@@ -40,11 +38,14 @@ public class Cliente implements Serializable{
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 	
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
+	
 	public Cliente() {
 		
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, tipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -85,11 +86,11 @@ public class Cliente implements Serializable{
 		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
-	public tipoCliente getTipo() {
-		return tipoCliente.toEnum(tipo);
+	public TipoCliente getTipo() {
+		return TipoCliente.toEnum(tipo);
 	}
 
-	public void setTipo(tipoCliente tipo) {
+	public void setTipo(TipoCliente tipo) {
 		this.tipo = tipo.getCod();
 	}
 
@@ -107,6 +108,14 @@ public class Cliente implements Serializable{
 
 	public void setTelefones(Set<String> telefones) {
 		this.telefones = telefones;
+	}
+
+	public List<Pedido> getPedidods() {
+		return pedidos;
+	}
+
+	public void setPedidods(List<Pedido> pedidods) {
+		this.pedidos = pedidods;
 	}
 
 	@Override
